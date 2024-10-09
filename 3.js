@@ -1,7 +1,11 @@
+//constants
+
 function calculateNetSalary(basicSalary, benefits) {
     const personalRelief = 2400;
     const pensionFundContributionLimit = 20000;
     const nssfRate = 0.06; 
+
+    // nhif rates
     const nhifRates = [
         { min: 0, max: 5999, deduction: 150 },
         { min: 6000, max: 7999, deduction: 300 },
@@ -22,10 +26,12 @@ function calculateNetSalary(basicSalary, benefits) {
         { min: 100000, max: Infinity, deduction: 1700 }
     ];
 
-    
+    // gross salary calculator
+
     let grossSalary = basicSalary + benefits;
 
-    
+    //nssf deduction rates
+
     let nssfDeduction = 0;
     if (grossSalary <= 7000) {
         nssfDeduction = grossSalary * nssfRate;
@@ -43,8 +49,11 @@ function calculateNetSalary(basicSalary, benefits) {
         }
     }
 
-    
+   // taxable income calculator
+
     let taxableIncome = grossSalary - nssfDeduction; 
+
+    // paye rates for different taxable income rates
     let paye = 0;
 
     if (taxableIncome <= 24000) {
@@ -59,11 +68,13 @@ function calculateNetSalary(basicSalary, benefits) {
         paye = (24000 * 0.1) + (8333 * 0.25) + (467667 * 0.3) + (300000 * 0.325) + ((taxableIncome - 800000) * 0.35);
     }
 
-    
+   // paye calculator
+
     paye = paye - personalRelief;
     paye = Math.max(paye, 0); 
 
-    
+// net salary calculator
+
     let netSalary = grossSalary - paye - nhifDeduction - nssfDeduction;
 
     
@@ -75,6 +86,8 @@ function calculateNetSalary(basicSalary, benefits) {
         netSalary: netSalary
     };
 }
+
+// testing the code above
 
 let basicSalary = 60000; 
 let benefits = 20000;   
